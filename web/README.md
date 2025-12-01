@@ -25,8 +25,10 @@ npm run typecheck   # TypeScript
 npm run format      # Prettier
 npm run prisma:generate
 npm run prisma:migrate
+npm run prisma:migrate:deploy  # Migration nur anwenden (z.B. Render)
 npm run prisma:studio
 npm run prisma:seed   # Fragen-Dataset befüllen
+npm run render:build  # Lokaler Test für das Render-Build-Skript
 ```
 
 ## Fragen-Dataset
@@ -45,6 +47,13 @@ Im Ordner `prisma/data` liegt ein kleines Default-Set mit sechs Kategorien und b
 - Ein Score-Feed (GET `/api/lobbies/[code]/score-events`) listet die letzten Punktezuteilungen inklusive Kategorie/Wert auf; das Board zeigt diesen Feed in der Sidebar.
 
 > Nach Schema-Änderungen (`activatedAt`/`timerEndsAt`) bitte `npm run prisma:migrate` ausführen, um die Felder in der Datenbank anzulegen.
+
+## Deployment auf Render
+
+1. **Environment Variablen** wie in `.env.example` setzen (`DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, TURN-Creds, `NEXT_PUBLIC_*`). Als `DATABASE_URL` auf Render die **Internal Database URL** verwenden.
+2. **Build Command** in Render auf `bash ./render-build.sh` stellen. Das Skript führt `npm install`, `npx prisma generate`, `npx prisma migrate deploy`, `npm run prisma:seed` und `npm run build` aus. So landen Schema-Änderungen und das Fragen-Dataset automatisch in der Render-Postgres-Instanz.
+3. **Start Command** bleibt `npm run start`.
+4. Optional kann das Skript auch lokal ausprobiert werden (`npm run render:build`). Für lokale Entwicklung gegen die Cloud-Datenbank einfach die External Database URL in `.env` setzen und `npx prisma migrate deploy` laufen lassen.
 
 ## Struktur
 
