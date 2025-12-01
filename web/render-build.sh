@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -euo pipefail
+set -eu
 
 printf "\n▶︎ Installing dependencies...\n"
 npm install
