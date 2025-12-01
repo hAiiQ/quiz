@@ -14,7 +14,7 @@
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "prisma:seed": "node prisma/seed.js",
-    "render:build": "bash ./render-build.sh"
+    "render:build": "sh ./render-build.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

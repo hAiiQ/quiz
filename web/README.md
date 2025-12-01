@@ -51,9 +51,10 @@ Im Ordner `prisma/data` liegt ein kleines Default-Set mit sechs Kategorien und b
 ## Deployment auf Render
 
 1. **Environment Variablen** wie in `.env.example` setzen (`DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, TURN-Creds, `NEXT_PUBLIC_*`). Als `DATABASE_URL` auf Render die **Internal Database URL** verwenden.
-2. **Build Command** in Render auf `bash ./render-build.sh` stellen. Das Skript führt `npm install`, `npx prisma generate`, `npx prisma migrate deploy`, `npm run prisma:seed` und `npm run build` aus. So landen Schema-Änderungen und das Fragen-Dataset automatisch in der Render-Postgres-Instanz.
+2. **Build Command** in Render auf `sh ./render-build.sh` stellen. Das Skript führt `npm install`, `npx prisma generate`, `npx prisma migrate deploy`, `npm run prisma:seed` und `npm run build` aus. So landen Schema-Änderungen und das Fragen-Dataset automatisch in der Render-Postgres-Instanz.
 3. **Start Command** bleibt `npm run start`.
 4. Optional kann das Skript auch lokal ausprobiert werden (`npm run render:build`). Für lokale Entwicklung gegen die Cloud-Datenbank einfach die External Database URL in `.env` setzen und `npx prisma migrate deploy` laufen lassen.
+4. Optional kann das Skript auch lokal (z.B. mit Git Bash/WSL) ausprobiert werden (`npm run render:build`). Für lokale Entwicklung gegen die Cloud-Datenbank einfach die External Database URL in `.env` setzen und `npx prisma migrate deploy` laufen lassen.
 
 ## Struktur
 
