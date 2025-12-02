@@ -66,15 +66,7 @@ export function LobbyCard({ code, name, status, participants }: LobbyCardProps) 
               <p className="text-xs uppercase tracking-[0.3em] text-purple-100/80">Code</p>
               <p className="font-mono text-xl">{code}</p>
             </div>
-            <CopyButton
-              value={code}
-              size="sm"
-              variant="secondary"
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-              }}
-            >
+            <CopyButton value={code} size="sm" variant="secondary">
               Kopieren
             </CopyButton>
           </div>
