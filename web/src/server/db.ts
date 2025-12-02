@@ -16,8 +16,17 @@ const ensureDatabaseUrl = () => {
 
 const getPool = () => {
   if (!globalForPrisma.prismaPool) {
+    const connectionString = ensureDatabaseUrl();
+    try {
+      const parsed = new URL(connectionString.replace("postgresql://", "postgres://"));
+      const dbName = parsed.pathname.replace(/^\//, "");
+      console.log(`[prisma] Initialisiere Pool für ${parsed.hostname}/${dbName}`);
+    } catch (error) {
+      console.warn("[prisma] Konnte Connection-String nicht parsen", error);
+    }
+
     globalForPrisma.prismaPool = new Pool({
-      connectionString: ensureDatabaseUrl(),
+      connectionString,
     });
   }
   return globalForPrisma.prismaPool;

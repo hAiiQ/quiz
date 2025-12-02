@@ -129,12 +129,12 @@ export async function listLobbiesForUser(userId: string) {
 
 export async function getLobbyByCode(code: string | undefined | null) {
   if (!code) {
+    console.warn("[getLobbyByCode] called without code");
     return null;
   }
 
   const normalized = code.trim().toUpperCase();
-
-  return prisma.lobby.findUnique({
+  const lobby = await prisma.lobby.findUnique({
     where: { code: normalized },
     include: {
       participants: {
@@ -147,4 +147,10 @@ export async function getLobbyByCode(code: string | undefined | null) {
       },
     },
   });
+
+  if (!lobby) {
+    console.warn(`[getLobbyByCode] lobby missing`, { normalized });
+  }
+
+  return lobby;
 }
