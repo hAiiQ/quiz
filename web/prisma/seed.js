@@ -20,10 +20,7 @@ const prisma = new PrismaClient({
 async function seedQuestions() {
   await prisma.question.deleteMany();
   await prisma.question.createMany({
-    data: questionSeed.map((question) => ({
-      ...question,
-      isDailyDouble: false,
-    })),
+    data: questionSeed,
   });
 }
 
