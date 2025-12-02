@@ -48,7 +48,8 @@ export async function createLobby(userId: string, input: CreateLobbyInput) {
 }
 
 export async function joinLobby(userId: string, input: JoinLobbyInput) {
-  const payload = joinLobbySchema.parse({ ...input, code: input.code.toUpperCase() });
+  const sanitizedCode = input.code?.trim().toUpperCase();
+  const payload = joinLobbySchema.parse({ ...input, code: sanitizedCode });
 
   return prisma.$transaction(async (tx: TransactionClient) => {
     const lobby = await tx.lobby.findUnique({
@@ -126,7 +127,11 @@ export async function listLobbiesForUser(userId: string) {
   });
 }
 
-export async function getLobbyByCode(code: string) {
+export async function getLobbyByCode(code: string | undefined | null) {
+  if (!code) {
+    return null;
+  }
+
   return prisma.lobby.findUnique({
     where: { code: code.toUpperCase() },
     include: {
