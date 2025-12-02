@@ -132,8 +132,10 @@ export async function getLobbyByCode(code: string | undefined | null) {
     return null;
   }
 
+  const normalized = code.trim().toUpperCase();
+
   return prisma.lobby.findUnique({
-    where: { code: code.toUpperCase() },
+    where: { code: normalized },
     include: {
       participants: {
         include: {
