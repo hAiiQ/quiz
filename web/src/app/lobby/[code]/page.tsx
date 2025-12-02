@@ -5,6 +5,9 @@ import { getLobbyByCode } from "@/server/lobbies/service";
 import { LobbyBoard } from "@/components/lobbies/lobby-board";
 import { CopyButton } from "@/components/ui/copy-button";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 type LobbyDetail = NonNullable<Awaited<ReturnType<typeof getLobbyByCode>>>;
 type ParticipantRecord = LobbyDetail["participants"][number];
 
