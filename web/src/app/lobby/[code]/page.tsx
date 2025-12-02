@@ -1,11 +1,14 @@
 import { headers } from "next/headers";
+import { unstable_noStore as noStore } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 import { getCurrentSession } from "@/server/auth/session";
 import { getLobbyByCode } from "@/server/lobbies/service";
 import { LobbyBoard } from "@/components/lobbies/lobby-board";
 import { CopyButton } from "@/components/ui/copy-button";
 
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 export const revalidate = 0;
 
 type LobbyDetail = NonNullable<Awaited<ReturnType<typeof getLobbyByCode>>>;
@@ -16,6 +19,7 @@ interface LobbyDetailPageProps {
 }
 
 export default async function LobbyDetailPage({ params }: LobbyDetailPageProps) {
+  noStore();
   const session = await getCurrentSession();
   if (!session?.user) {
     redirect("/login");
