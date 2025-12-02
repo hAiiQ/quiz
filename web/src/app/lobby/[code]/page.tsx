@@ -15,17 +15,18 @@ type LobbyDetail = NonNullable<Awaited<ReturnType<typeof getLobbyByCode>>>;
 type ParticipantRecord = LobbyDetail["participants"][number];
 
 interface LobbyDetailPageProps {
-  params: { code: string };
+  params: Promise<{ code: string }> | { code: string };
 }
 
 export default async function LobbyDetailPage({ params }: LobbyDetailPageProps) {
   noStore();
+  const resolvedParams = await Promise.resolve(params);
   const session = await getCurrentSession();
   if (!session?.user) {
     redirect("/login");
   }
 
-  const { code } = params;
+  const { code } = resolvedParams;
   const lobby = await getLobbyByCode(code);
   if (!lobby) {
     notFound();
